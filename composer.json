@@ -27,6 +27,11 @@
     "include-path": [
         "includes/"
     ],
+    "extra": {
+        "branch-alias": {
+            "dev-master": "4.x-dev"
+        }
+    },
     "prefer-stable": true,
-    "minimum-stability": "stable"
+    "minimum-stability": "dev"
 }
