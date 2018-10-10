@@ -40,6 +40,7 @@ class BuildStaticCacheFromQueue extends BuildTask {
 	 */
 	public static $current_url = '';
 
+    private static $http_protocol = 'http';
 	/**
 	 *
 	 * @var type
@@ -196,11 +197,11 @@ class BuildStaticCacheFromQueue extends BuildTask {
 						Config::inst()->update(
 							'FilesystemPublisher',
 							'static_base_url',
-							'http://'.$domain->Domain . Director::baseURL()
+                            Config::inst()->get('BuildStaticCacheFromQueue', 'http_protocol'), '://'.$domain->Domain . Director::baseURL()
 						);
 
 						$result = singleton("SiteTree")->publishPages(
-							array('http://'.$domain->Domain . Director::baseURL() . $cleanUrl)
+							array(Config::inst()->get('BuildStaticCacheFromQueue', 'http_protocol'), '://'.$domain->Domain . Director::baseURL() . $cleanUrl)
 						);
 						$results = array_merge($results, $result);
 					}
