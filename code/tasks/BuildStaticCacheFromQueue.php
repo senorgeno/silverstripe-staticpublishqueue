@@ -161,6 +161,7 @@ class BuildStaticCacheFromQueue extends BuildTask {
 	 * @param array $URLSegments
 	 */
 	protected function createCachedFiles(array $URLSegments) {
+        $httpProtocol = Config::inst()->get('BuildStaticCacheFromQueue', 'http_protocol');
 		$results = array();
 		foreach($URLSegments as $index => $url) {
 			$obj = $this->getUrlArrayObject()->getObject($url);
@@ -197,12 +198,12 @@ class BuildStaticCacheFromQueue extends BuildTask {
 						Config::inst()->update(
 							'FilesystemPublisher',
 							'static_base_url',
-                            Config::inst()->get('BuildStaticCacheFromQueue', 'http_protocol'), '://'.$domain->Domain . Director::baseURL()
+                            $httpProtocol . '://'.$domain->Domain . Director::baseURL()
 						);
 
-						$result = singleton("SiteTree")->publishPages(
-							array(Config::inst()->get('BuildStaticCacheFromQueue', 'http_protocol'), '://'.$domain->Domain . Director::baseURL() . $cleanUrl)
-						);
+                        $result = singleton("SiteTree")->publishPages(
+                            array($httpProtocol . '://'.$domain->Domain . Director::baseURL() . $cleanUrl)
+                        );
 						$results = array_merge($results, $result);
 					}
 				}
